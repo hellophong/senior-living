@@ -146,8 +146,8 @@
   /* Must track --ink / the header illustration's brand blue in css/styles.css —
      this is what actually gets used as a pin/badge/chip's text colour when it
      reads better than white, not just a value contrast is checked against. */
-  var INK = "#1f2733";
-  var INK_DEEP = "#131822";
+  var INK = "#23375f";
+  var INK_DEEP = "#131f38";
   var AA = 4.5;
 
   function mix(hex, towards, amount) {

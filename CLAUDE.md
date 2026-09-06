@@ -108,18 +108,31 @@ font-matching falls back to, not a real 300. The pin-number `<text>` in `pinIcon
 included — is built from literal values, not CSS custom properties; keep that string in
 sync with `--font-display` by hand if the display font ever changes again.
 
-**The header artwork is referenced with `<img>`, never inlined**, so swapping it is a
-file-plus-two-numbers change: replace `assets/SeniorLiving-BlueCommunity.png`, update its
-`src` in `index.html`, and update `.banner__scene`'s `aspect-ratio` (currently
-`2172 / 724`, that file's own canvas) in `css/styles.css` to match. This illustration
-bleeds to all four edges of its canvas (no dead margin — the content bounding box is
-within a few px of every edge), so it's fit with `object-fit: contain`, not `cover`:
-`cover` would crop into real figures (the cane-walker at the far left, the dog-walker at
-the far right), where `contain` only ever shrinks the whole thing or leaves matching-colour
-margin, never cuts it. A future replacement with real dead margin (sky/ground padding
-before content starts) could switch back to `cover` for a tighter, edge-to-edge look —
-check the new file's content bounding box before doing that, the same way this one was
-checked (a not-near-white pixel scan) rather than assuming.
+**The header artwork is referenced with `<img>`, never inlined.** This one is an
+Illustrator SVG export carrying a `<style>` block of generic `.st0`–`.st32` class names
+that would leak into the page if inlined directly into the HTML — `<img>` keeps it
+sandboxed regardless. Swapping it is a file-plus-two-numbers change: replace
+`assets/SeniorLiving-BlueCommunity-02.svg`, update its `src` in `index.html`, and update
+`.banner__scene`'s `aspect-ratio` (currently `2062.37 / 385.42`, that file's own canvas)
+in `css/styles.css` to match.
+
+Whether the banner uses `object-fit: cover` or `contain` depends entirely on how much
+dead margin the specific artwork has — check by rendering it and scanning for the
+bounding box of non-near-white pixels, never by assuming. This file has real margin on
+every edge (a scan of the rendered SVG found content spanning only y=6..352 of its
+386-tall canvas — 1.6% clear at the top, 8.8% at the bottom — inset from both sides
+too), so it's fit with `cover`, biased low (`object-position: center 20%`) since the top
+margin is thin enough that any crop has to come out of the bottom's bigger buffer
+instead. The *previous* header photo had the opposite problem — content bled to all four
+edges with nothing to crop into — and used `contain` for exactly that reason; don't
+carry either choice forward onto a future replacement without re-checking its own
+margins the same way.
+
+This SVG's `<style>` block happens to define several colours (`.st0`–`.st13`) that exactly
+match holiday-map's own named palette, even though this particular composition only
+paints with a subset of them (see the palette note below) — that's not a coincidence
+worth re-litigating if a future version of this artwork uses a different subset; just
+re-sample whatever it actually renders with, the same way this one was.
 
 **Stacked layout needs `.layout { flex: 0 0 auto; min-height: auto; }`.** Without it the
 grid shrinks to the leftover viewport height, the sidebar's flex column collapses its card
@@ -140,7 +153,7 @@ Attribution for Stadia, OpenMapTiles and OpenStreetMap must stay visible.
 
 ## Content conventions
 
-The header illustration (`assets/SeniorLiving-BlueCommunity.png`) is real. The dataset
+The header illustration (`assets/SeniorLiving-BlueCommunity-02.svg`) is real. The dataset
 (`data/communities.json`) is still placeholder: four fictional listings with
 `example.com` links and `555`-exchange phone numbers, and hand-drawn flat-vector SVGs
 standing in for every listing photo — deliberately not photorealistic, so nothing gets

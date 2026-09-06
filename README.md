@@ -78,7 +78,7 @@ listing is hard-coded in the HTML or JS. Edit that file and reload.
   "categories": {
     "independent-living": {             // key referenced by each listing
       "label": "Independent Living",    // shown on chips, cards, the ribbon and the legend
-      "color": "#2f7d6b"                // colours the pin, its number badge and dot
+      "color": "#9fd0d2"                // colours the pin, its number badge and dot
     }
     // …assisted-living, memory-care, ccrc, in-home-care, senior-services
   },
@@ -140,32 +140,37 @@ listing names are safe.
 ## What's in the box
 
 ```
-index.html                            page shell — masthead, illustrated band, sidebar, map frame
-css/styles.css                        the flat editorial look: palette, masthead, cards, pins
-js/app.js                             map setup, pins, hover cards, filtering, search, legend
-data/communities.json                 the directory itself
-assets/SeniorLiving-BlueCommunity.png header illustration
-assets/photos/*.svg                   placeholder listing photos — swap for real photography
-vendor/leaflet/                        Leaflet 1.9.4 (BSD-2-Clause), vendored
-vendor/fonts/                          Fredoka + Nunito Sans (SIL OFL), vendored
+index.html                               page shell — masthead, illustrated band, sidebar, map frame
+css/styles.css                           the flat editorial look: palette, masthead, cards, pins
+js/app.js                                map setup, pins, hover cards, filtering, search, legend
+data/communities.json                    the directory itself
+assets/SeniorLiving-BlueCommunity-02.svg header illustration
+assets/photos/*.svg                      placeholder listing photos — swap for real photography
+vendor/leaflet/                           Leaflet 1.9.4 (BSD-2-Clause), vendored
+vendor/fonts/                             Fredoka + Nunito Sans (SIL OFL), vendored
 ```
 
-Typography is Fredoka (masthead, listing/community names, pin and badge numbers, the
-legend heading) over Nunito Sans (everything else) — the same pairing the holiday-map
-project uses, so the two directories read as one family even with different palettes.
+Typography and palette both now match the holiday-map project directly, not just echo
+its style. Fredoka (masthead, listing/community names, pin and badge numbers, the legend
+heading) over Nunito Sans (everything else) is the same pairing at the same weights.
 
-The palette is a clean, cool near-white ground with dark slate text and a cobalt-blue
-masthead accent — `#f7f9fc` ground, `#1f2733` ink, `#2454c9` brand — pulled from the
-header illustration's own line colour, plus one distinct, muted colour per category:
-teal for independent living, terracotta for assisted living, plum for memory care, navy
-for CCRCs, ochre for in-home care, sage for senior services. The illustration bleeds to
-all four edges of its own canvas, so the banner fits it with `object-fit: contain`
-(never cropping) rather than `cover`; `--ground` matches its near-white background so
-any letterboxing on wide screens blends in rather than reading as a visible box.
+The header illustration's own embedded colour swatches turned out to be, almost
+verbatim, holiday-map's own named palette — so the site's colours are pulled straight
+from there rather than invented fresh: `#eae6e2` greige ground (holiday-map's own page
+ground), `#23375f` ink and `#345393` brand (deepened a little off the illustration's own
+line colour, `#3e62ac`, for real AA margin), and one colour per category reusing
+holiday-map's own swatches — teal for independent living, coral for assisted living,
+purple for memory care, navy for CCRCs, gold for in-home care, green for senior
+services. A pixel scan of the rendered SVG found real dead margin on every edge (as
+little as 1.6% at the top, more elsewhere), so the banner fits it with `object-fit:
+cover` biased toward the top (`object-position: center 20%`) rather than `contain` —
+this illustration can afford to crop a little at the edges without cutting into the
+buildings or the gardening couple, unlike a full-bleed image.
 
 To swap the header illustration again: replace the file, update its `src` in
 `index.html`, and update the `aspect-ratio` in `.banner__scene` (`css/styles.css`) to
-match the new file's own width/height.
+match the new file's own width/height — and re-check whether it has dead margin to
+crop into (`cover`) or bleeds to its edges (`contain`, see the CLAUDE.md note).
 
 ## Features
 

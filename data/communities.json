@@ -11,27 +11,27 @@
   "categories": {
     "independent-living": {
       "label": "Independent Living",
-      "color": "#2f7d6b"
+      "color": "#9fd0d2"
     },
     "assisted-living": {
       "label": "Assisted Living",
-      "color": "#b8502c"
+      "color": "#e54b3c"
     },
     "memory-care": {
       "label": "Memory Care",
-      "color": "#7a4f8a"
+      "color": "#633d7a"
     },
     "ccrc": {
       "label": "CCRC",
-      "color": "#33587e"
+      "color": "#4d6998"
     },
     "in-home-care": {
       "label": "In-Home Care",
-      "color": "#a9791f"
+      "color": "#f8a92d"
     },
     "senior-services": {
       "label": "Senior Services",
-      "color": "#4b7a4e"
+      "color": "#2cac84"
     }
   },
 

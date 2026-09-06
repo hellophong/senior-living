@@ -1,10 +1,11 @@
 /* ---------------------------------------------------------------
    The Next Chapter Map — flat editorial styling
-   A clean, cool-toned look: near-white ground, dark slate ink, a
-   cobalt masthead accent (pulled from the header illustration), and
-   a muted, distinct colour per category. Fredoka + Nunito Sans match
-   the holiday-map project's own type scheme. No outlines, no
-   gradients, no drop shadows.
+   Palette and type both now match the holiday-map project directly:
+   the same greige ground, the header illustration's own blue ink for
+   the masthead, and — reusing that illustration's embedded swatches —
+   the same named colour family (teal, coral, purple, navy, gold,
+   green) for the six categories, plus Fredoka + Nunito Sans. No
+   outlines, no gradients, no drop shadows.
    --------------------------------------------------------------- */
 
 /* Fredoka and Nunito Sans are vendored as trimmed variable fonts covering
@@ -27,28 +28,29 @@
 }
 
 :root {
-  /* ground + ink — a clean, cool near-white matching the header illustration's
-     own background, rather than the warm parchment of the placeholder art */
-  --ground: #f7f9fc;
-  --ground-warm: #eef2f9;
+  /* ground + ink — the same greige the holiday-map project uses as its own
+     page ground; this illustration's background is transparent (no baked-in
+     fill), so this is what actually shows behind it */
+  --ground: #eae6e2;
+  --ground-warm: #e3dcd2;
   --paper: #ffffff;
-  --ink: #1f2733;
-  --ink-soft: #5b6675;
+  --ink: #23375f;
+  --ink-soft: #4f5f82;
 
-  /* masthead + featured accent — the header illustration's own cobalt blue,
-     deepened a little from its literal #2b6bdf so it holds AA on the ground
-     with real margin, not just past the 4.5:1 line */
-  --brand: #2454c9;
-  --brand-deep: #1a3d9e;
+  /* masthead + featured accent — the header illustration's own line colour
+     (#3e62ac, by far its most-used fill), deepened a little so it holds AA
+     on the ground with real margin, not just past the 4.5:1 line */
+  --brand: #345393;
+  --brand-deep: #273e6f;
 
-  /* the category palette, plus a couple of chrome-only accents */
-  --teal: #2f7d6b;
-  --terracotta: #b8502c;
-  --plum: #7a4f8a;
-  --navy: #33587e;
-  --ochre: #a9791f;
-  --sage: #4b7a4e;
-  --gold: #d8a544;
+  /* the category palette — the holiday-map project's own named swatches,
+     reused directly from this illustration's embedded style block */
+  --teal: #9fd0d2;
+  --coral: #e54b3c;
+  --purple: #633d7a;
+  --navy: #4d6998;
+  --gold: #f8a92d;
+  --green: #2cac84;
 
   --radius-lg: 26px;
   --radius-md: 18px;
@@ -124,18 +126,21 @@ a:hover { color: var(--brand-deep); }
   color: var(--ink-soft);
 }
 
-/* the illustrated band. The artwork bleeds to all four edges of its own
-   canvas (no dead margin to sacrifice), so it's fit with `contain` rather
-   than `cover` — cropping *any* edge here would cut into real figures
-   (the walker on the far left, the dog-walker on the far right), not
-   just empty sky. --ground matches the illustration's own near-white
-   background, so on wide viewports, where the max-height below leaves
-   the box wider than the art's own ratio, the empty sides blend in
-   rather than reading as a visible letterbox. */
+/* the illustrated band. Unlike the previous header photo, this artwork has
+   real dead margin — a pixel scan of the rendered SVG found content
+   spanning only y=6..352 of its 386-tall canvas (a bare 1.6% clear at the
+   top, 8.8% at the bottom) inset from both sides too — so `cover` is safe
+   here without cutting into the buildings or the gardening couple, as long
+   as cropping stays inside that margin. object-position is biased low
+   (20%) because the top margin is so thin: cropping eats into the bottom's
+   more generous buffer first, only touching the top once a viewport is
+   wide enough that no max-height could avoid it. The SVG itself has no
+   background fill (transparent), so it takes on --ground directly — no
+   colour-matching needed the way the old raster header required. */
 .banner__scene {
   width: 100%;
-  aspect-ratio: 2172 / 724;
-  max-height: 320px;
+  aspect-ratio: 2062.37 / 385.42;
+  max-height: 260px;
   margin-top: .5rem;
   background: var(--ground);
 }
@@ -144,7 +149,8 @@ a:hover { color: var(--brand-deep); }
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center 20%;
 }
 
 /* ----------------------------- Layout ----------------------------- */
@@ -231,7 +237,7 @@ a:hover { color: var(--brand-deep); }
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--chip-color, var(--sage));
+  background: var(--chip-color, var(--green));
   flex: none;
 }
 
@@ -288,7 +294,7 @@ a:hover { color: var(--brand-deep); }
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--card-color, var(--sage));
+  background: var(--card-color, var(--green));
   color: var(--card-ink, #fff);
   font-family: var(--font-display);
   font-weight: 600;
@@ -322,7 +328,7 @@ a:hover { color: var(--brand-deep); }
   letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--brand);
-  background: rgba(36, 84, 201, .1);
+  background: rgba(52, 83, 147, .1);
   border-radius: 999px;
   padding: .1rem .5rem;
 }
@@ -406,7 +412,7 @@ a:hover { color: var(--brand-deep); }
   background: var(--paper);
   color: var(--ink);
   border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(31, 39, 51, .16);
+  box-shadow: 0 8px 24px rgba(35, 55, 95, .16);
   padding: 0;
 }
 
@@ -461,7 +467,7 @@ a:hover { color: var(--brand-deep); }
   height: 26px;
   border: 0;
   border-radius: 50%;
-  background: rgba(31, 39, 51, .55);
+  background: rgba(35, 55, 95, .55);
   color: #fff;
   font-size: 1rem;
   line-height: 1;
@@ -473,7 +479,7 @@ a:hover { color: var(--brand-deep); }
 .pop__car-prev { left: 8px; }
 .pop__car-next { right: 8px; }
 
-.pop__car-btn:hover { background: rgba(31, 39, 51, .78); }
+.pop__car-btn:hover { background: rgba(35, 55, 95, .78); }
 .pop__car-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
 .pop__car-dots {
@@ -590,7 +596,7 @@ a:hover { color: var(--brand-deep); }
 
 .leaflet-control-zoom {
   border: 0 !important;
-  box-shadow: 0 4px 14px rgba(31, 39, 51, .16) !important;
+  box-shadow: 0 4px 14px rgba(35, 55, 95, .16) !important;
   border-radius: 14px !important;
   overflow: hidden;
 }
@@ -620,7 +626,7 @@ a:hover { color: var(--brand-deep); }
 .map-legend {
   background: var(--paper);
   border-radius: var(--radius-md);
-  box-shadow: 0 6px 18px rgba(31, 39, 51, .14);
+  box-shadow: 0 6px 18px rgba(35, 55, 95, .14);
   padding: .7rem .85rem;
   font-size: .76rem;
   line-height: 1.7;
@@ -649,7 +655,7 @@ a:hover { color: var(--brand-deep); }
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: var(--swatch, var(--sage));
+  background: var(--swatch, var(--green));
   flex: none;
 }
 
@@ -658,7 +664,7 @@ a:hover { color: var(--brand-deep); }
   line-height: 1.5;
 }
 
-.tile-warning h2 { color: var(--terracotta); }
+.tile-warning h2 { color: var(--coral); }
 
 .tile-warning code {
   background: var(--ground-warm);
@@ -684,7 +690,7 @@ a:hover { color: var(--brand-deep); }
   .banner { padding: 1.1rem 0 0; }
   .banner__inner { padding: 0 1rem; }
   /* no max-height override needed here: at this breakpoint's widths the
-     3:1 aspect-ratio already yields a shorter box than the desktop cap. */
+     ~5.35:1 aspect-ratio already yields a shorter box than the desktop cap. */
 
   .map-frame { height: 58vh; min-height: 330px; }
 
