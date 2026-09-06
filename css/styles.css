@@ -4,8 +4,9 @@
    the same greige ground, the header illustration's own blue ink for
    the masthead, and — reusing that illustration's embedded swatches —
    the same named colour family (teal, coral, purple, navy, gold,
-   green) for the six categories, plus Fredoka + Nunito Sans. No
-   outlines, no gradients, no drop shadows.
+   green, pink, deep navy), now assigned at random per listing rather
+   than by category, plus Fredoka + Nunito Sans. No outlines, no
+   gradients, no drop shadows.
    --------------------------------------------------------------- */
 
 /* Fredoka and Nunito Sans are vendored as trimmed variable fonts covering
@@ -43,8 +44,12 @@
   --brand: #345393;
   --brand-deep: #273e6f;
 
-  /* the category palette — the holiday-map project's own named swatches,
-     reused directly from this illustration's embedded style block */
+  /* named colour tokens for a few chrome/fallback spots below (the
+     scrollbar thumb, the tile-warning heading, a default swatch if
+     --card-color/--swatch is ever unset) — the holiday-map project's own
+     swatches. The *listings*' colours are a separate, wider palette
+     assigned at random; see RANDOM_PALETTE in js/app.js, which duplicates
+     these values rather than reading them (same reason INK/INK_DEEP do). */
   --teal: #9fd0d2;
   --coral: #e54b3c;
   --purple: #633d7a;
@@ -126,22 +131,22 @@ a:hover { color: var(--brand-deep); }
   color: var(--ink-soft);
 }
 
-/* the illustrated band. Unlike the previous header photo, this artwork has
-   real dead margin — a pixel scan of the rendered SVG found content
-   spanning only y=6..352 of its 386-tall canvas (a bare 1.6% clear at the
-   top, 8.8% at the bottom) inset from both sides too — so `cover` is safe
-   here without cutting into the buildings or the gardening couple, as long
-   as cropping stays inside that margin. object-position is biased low
-   (20%) because the top margin is so thin: cropping eats into the bottom's
-   more generous buffer first, only touching the top once a viewport is
-   wide enough that no max-height could avoid it. The SVG itself has no
-   background fill (transparent), so it takes on --ground directly — no
-   colour-matching needed the way the old raster header required. */
+/* the illustrated band. This artwork has real dead margin — a pixel scan of
+   the rendered SVG found content spanning only y=6..352 of its 386-tall
+   canvas — but rather than lean on that margin to absorb a `cover` crop on
+   wide windows, max-width caps the box at the width where its own
+   aspect-ratio already meets max-height (260 * 2062.37/385.42 ≈ 1391px, so
+   1400px lines up with the rest of the page's own content width) — past
+   that width the box just stops growing and lets --ground show at the
+   sides instead of cropping the image at all. object-fit is `contain`, not
+   `cover`, as a second, independent guarantee of the same thing: even a
+   rounding hair over that width still shrinks to fit rather than crops. */
 .banner__scene {
   width: 100%;
+  max-width: 1400px;
   aspect-ratio: 2062.37 / 385.42;
   max-height: 260px;
-  margin-top: .5rem;
+  margin: .5rem auto 0;
   background: var(--ground);
 }
 
@@ -149,8 +154,7 @@ a:hover { color: var(--brand-deep); }
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center 20%;
+  object-fit: contain;
 }
 
 /* ----------------------------- Layout ----------------------------- */
@@ -210,45 +214,87 @@ a:hover { color: var(--brand-deep); }
 
 .search input::placeholder { color: var(--ink-soft); opacity: .8; }
 
-.filters {
+/* "Your location" — a free-text ZIP/address, geocoded on submit (see
+   wireLocate() in js/app.js) and dropped as a marker distinct from every
+   listing pin. Styled to match .search directly above it, since it took
+   over that same row in the sidebar head. */
+.locate {
   display: flex;
-  flex-wrap: wrap;
-  gap: .4rem;
+  align-items: center;
+  gap: .5rem;
+  background: var(--ground-warm);
+  border-radius: 999px;
+  padding: .5rem .5rem .5rem .9rem;
   margin-top: .7rem;
 }
 
-.chip {
-  font: inherit;
-  font-size: .8rem;
-  font-weight: 700;
-  cursor: pointer;
-  border: 0;
-  border-radius: 999px;
-  padding: .32rem .7rem;
-  background: var(--ground-warm);
-  color: var(--ink);
-  display: inline-flex;
-  align-items: center;
-  gap: .38rem;
-  transition: background-color .14s ease, color .14s ease;
-}
-
-.chip__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--chip-color, var(--green));
+.locate__icon {
+  width: 15px;
+  height: 15px;
   flex: none;
+  color: var(--ink-soft);
 }
 
-.chip:hover { background: #e4d6c2; }
+.locate input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: .95rem;
+  background: transparent;
+  color: var(--ink);
+}
 
-.chip[aria-pressed="true"] {
-  background: var(--ink);
+.locate input::placeholder { color: var(--ink-soft); opacity: .8; }
+
+.locate__go {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--brand);
   color: #fff;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background-color .14s ease;
 }
 
-.chip:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.locate__go svg { width: 13px; height: 13px; }
+.locate__go:hover { background: var(--brand-deep); }
+.locate__go:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+.locate__status {
+  margin: .5rem 0 0;
+  font-size: .76rem;
+  color: var(--ink-soft);
+}
+
+.locate__clear {
+  display: block;
+  font: inherit;
+  font-size: .74rem;
+  font-weight: 700;
+  color: var(--brand);
+  background: none;
+  border: 0;
+  padding: .2rem 0 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+/* An author stylesheet's `display` always beats the UA stylesheet's
+   `[hidden]{display:none}`, specificity and source order notwithstanding
+   (origin outranks both) — so the rule above left this visible even with
+   the hidden attribute set. el.hidden = true is still the right way to
+   toggle it (matches locateStatus and every other hidden/shown element on
+   the page); this is the one selector that has to restate `none` itself. */
+.locate__clear[hidden] { display: none; }
+
+.locate__clear:hover { color: var(--brand-deep); }
+.locate__clear:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
 /* Directory cards */
 
@@ -377,8 +423,9 @@ a:hover { color: var(--brand-deep); }
 }
 
 /* ------------------------------ Pins ------------------------------ */
-/* Tier controls pin size — featured markers render larger (see PIN_SCALE
-   in js/app.js), everything else about the shape is identical. */
+/* Tier controls pin size — featured markers render larger (see
+   FEATURED_SCALE in js/app.js), everything else about the shape is
+   identical. */
 
 .pin {
   background: none !important;
@@ -404,6 +451,31 @@ a:hover { color: var(--brand-deep); }
 @media (prefers-reduced-motion: reduce) {
   .pin__svg { transition: none; }
   .pin.is-active .pin__svg { animation: none; }
+}
+
+/* ------------------------ "You are here" marker -------------------- */
+/* Centre-anchored (not a bottom-tip teardrop like listing pins) with a
+   pulsing ring, in the fixed brand blue — never a colour any listing pin
+   could randomly land on — so it reads as a different kind of thing on the
+   map, not one more unnumbered listing. */
+
+.locate-pin {
+  background: none !important;
+  border: 0 !important;
+}
+
+.locate-pin__pulse {
+  transform-origin: 17px 17px;
+  animation: locate-pulse 2.2s ease-out infinite;
+}
+
+@keyframes locate-pulse {
+  0%   { r: 7px; opacity: .45; }
+  100% { r: 15px; opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .locate-pin__pulse { animation: none; opacity: .3; }
 }
 
 /* --------------------------- Hover card --------------------------- */
@@ -578,7 +650,7 @@ a:hover { color: var(--brand-deep); }
   font-weight: 700;
   text-decoration: none;
   color: #fff;
-  /* deep ink rather than the category colour: gold and other mid-tones
+  /* deep ink rather than the listing's own colour: gold and other mid-tones
      can't carry white label text at this size */
   background: var(--ink);
   border-radius: 999px;
@@ -623,6 +695,11 @@ a:hover { color: var(--brand-deep); }
 
 .leaflet-control-attribution a { color: var(--ink-soft) !important; }
 
+/* Base box for any small floating map control card. The category legend
+   that originally justified the name is gone (colours are random now, so a
+   legend for them would be actively misleading, not just unnecessary) —
+   this class and its heading survive purely because the tile-health notice
+   (onTileError() in js/app.js) still builds on the same box + h2. */
 .map-legend {
   background: var(--paper);
   border-radius: var(--radius-md);
@@ -639,24 +716,6 @@ a:hover { color: var(--brand-deep); }
   font-size: .95rem;
   margin: 0 0 .25rem;
   color: var(--ink);
-}
-
-.map-legend ul { margin: 0; padding: 0; }
-
-.map-legend li {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  gap: .45rem;
-  color: var(--ink-soft);
-}
-
-.map-legend .swatch {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--swatch, var(--green));
-  flex: none;
 }
 
 .tile-warning {

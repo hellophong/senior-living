@@ -19,9 +19,9 @@
     data: null,
     markers: {},          // id -> L.Marker
     numbers: {},           // id -> directory number (tier, then alphabetical; stable)
+    colors: {},             // id -> hex, assigned once at load (see assignColors())
     activeId: null,        // pinned (clicked) listing
     hoverId: null,         // listing under the cursor
-    filters: new Set(),    // empty === show everything
     query: "",
     closeTimers: {}        // id -> pending hover-close timeout, one per listing
   };
@@ -125,8 +125,36 @@
     });
   }
 
-  /* The numbers sit on the category colour, which ranges from a pale gold to
-     a deep navy, so the label colour is chosen per category rather than fixed. */
+  /* Every listing used to inherit its colour from a category; with no more
+     categories, each one gets its own colour instead, drawn from the same
+     palette (holiday-map's named swatches) at random. Assigned once here —
+     not per render — and shuffled without replacement so, as long as there
+     are no more listings than colours, no two are ever the same by
+     accident; past that it wraps and repeats are possible. Reload the page
+     for a new shuffle; state.colors keeps it stable for the rest of the
+     session so a listing's pin and its sidebar badge never drift apart, and
+     so filtering/searching (which re-renders the card list) doesn't
+     reshuffle anyone already on screen. */
+  var RANDOM_PALETTE = ["#9fd0d2", "#e54b3c", "#633d7a", "#4d6998", "#f8a92d", "#2cac84", "#e697aa", "#24536f"];
+
+  function shuffled(list) {
+    var out = list.slice();
+    for (var i = out.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var swap = out[i]; out[i] = out[j]; out[j] = swap;
+    }
+    return out;
+  }
+
+  function assignColors() {
+    var palette = shuffled(RANDOM_PALETTE);
+    state.data.listings.forEach(function (listing, index) {
+      state.colors[listing.id] = palette[index % palette.length];
+    });
+  }
+
+  /* The numbers sit on a colour that ranges from a pale gold to a deep navy,
+     so the label colour is chosen per listing rather than fixed. */
   function luminance(hex) {
     var n = parseInt(hex.slice(1), 16);
     return [16, 8, 0]
@@ -160,10 +188,13 @@
     return out;
   }
 
-  /* Numbers sit directly on the category colour. Where neither white nor
-     deep ink text reaches AA (4.5:1) on it, the fill is deepened just until
-     white text clears the threshold. Chips and legend dots use the same
-     adjusted colour, so a pin and its dot in the legend always match. */
+  /* Numbers sit directly on a listing's assigned colour. Where neither white
+     nor deep ink text reaches AA (4.5:1) on it, the fill is deepened just
+     until white text clears the threshold. A pin and its sidebar badge run
+     the same colour through this function, so they always match even after
+     deepening — and a random palette entry that happens to read poorly
+     (unlikely, but not impossible with 8 fixed swatches) still comes out
+     AA-safe automatically, the same as a category colour used to. */
   function numberStyle(hex) {
     var bg = luminance(hex);
     var onWhite = contrast(bg, 1);
@@ -197,10 +228,10 @@
     };
   }
 
-  function pinIcon(listing, category) {
+  function pinIcon(listing) {
     var number = state.numbers[listing.id];
     var digits = String(number).length;
-    var style = numberStyle(category.color);
+    var style = numberStyle(state.colors[listing.id]);
     var dims = pinDims(listing.tier);
 
     var svg =
@@ -221,6 +252,32 @@
       iconSize: [dims.w, dims.h],
       iconAnchor: [dims.anchorX, dims.anchorY],
       popupAnchor: [0, dims.popupY]
+    });
+  }
+
+  /* The "your location" marker is deliberately not another pin: a random
+     palette entry could in principle land on any of these colours on any
+     given load, so the only reliable way to keep it from reading as one
+     more (oddly unnumbered) listing is a different silhouette — a centred
+     dot with a soft pulse ring, anchored at its own middle rather than a
+     bottom tip, in the fixed brand blue no listing pin ever uses. */
+  var LOCATE_COLOR = "#345393";
+
+  function locationIcon() {
+    var svg =
+      '<svg class="locate-pin__svg" width="34" height="34" viewBox="0 0 34 34" ' +
+        'xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+        '<circle class="locate-pin__pulse" cx="17" cy="17" r="8" fill="' + LOCATE_COLOR + '" opacity=".4"/>' +
+        '<circle cx="17" cy="17" r="9" fill="#fff"/>' +
+        '<circle cx="17" cy="17" r="6.5" fill="' + LOCATE_COLOR + '"/>' +
+      "</svg>";
+
+    return L.divIcon({
+      className: "locate-pin",
+      html: svg,
+      iconSize: [34, 34],
+      iconAnchor: [17, 17],
+      popupAnchor: [0, -20]
     });
   }
 
@@ -280,7 +337,7 @@
     );
   }
 
-  function popupHtml(listing, category) {
+  function popupHtml(listing) {
     var details = [];
     if (listing.address) details.push("<span>" + PIN_ICON + esc(listing.address) + "</span>");
     if (listing.hours) details.push("<span>" + CLOCK_ICON + esc(listing.hours) + "</span>");
@@ -290,9 +347,9 @@
         esc(listing.phone) + "</a></span>");
     }
 
-    var badge = numberStyle(category.color);
+    var badge = numberStyle(state.colors[listing.id]);
     var featuredTag = listing.tier === "featured"
-      ? '<span class="pop__featured-tag">Featured</span><span aria-hidden="true">·</span>'
+      ? '<span class="pop__featured-tag">Featured</span>'
       : "";
 
     return (
@@ -300,7 +357,7 @@
         photosHtml(listing) +
         '<p class="pop__ribbon"><span class="pop__num" style="background:' + badge.bg +
           ';color:' + badge.fg + '">' + state.numbers[listing.id] + "</span>" +
-          featuredTag + esc(category.label) + "</p>" +
+          featuredTag + "</p>" +
         '<h2 class="pop__name">' + esc(listing.name) + "</h2>" +
         '<p class="pop__blurb">' + esc(listing.blurb) + "</p>" +
         (details.length ? '<p class="pop__details">' + details.join("") + "</p>" : "") +
@@ -436,14 +493,8 @@
   /* --------------------------- Filtering ------------------------ */
 
   function isVisible(listing) {
-    var byCategory = state.filters.size === 0 || state.filters.has(listing.category);
-    if (!byCategory) return false;
     if (!state.query) return true;
-
-    var category = state.data.categories[listing.category] || {};
-    var haystack = [listing.name, listing.blurb, listing.address, category.label, listing.category]
-      .join(" ")
-      .toLowerCase();
+    var haystack = [listing.name, listing.blurb, listing.address].join(" ").toLowerCase();
     return haystack.indexOf(state.query) !== -1;
   }
 
@@ -469,30 +520,6 @@
 
   /* ---------------------------- Sidebar ------------------------- */
 
-  function renderFilters() {
-    var host = document.getElementById("filters");
-    host.innerHTML = "";
-
-    Object.keys(state.data.categories).forEach(function (id) {
-      var category = state.data.categories[id];
-      var chip = document.createElement("button");
-      chip.type = "button";
-      chip.className = "chip";
-      chip.style.setProperty("--chip-color", numberStyle(category.color).bg);
-      chip.setAttribute("aria-pressed", "false");
-      chip.innerHTML = "<span class='chip__dot' aria-hidden='true'></span>" + esc(category.label);
-
-      chip.addEventListener("click", function () {
-        if (state.filters.has(id)) state.filters.delete(id);
-        else state.filters.add(id);
-        chip.setAttribute("aria-pressed", state.filters.has(id) ? "true" : "false");
-        applyFilters();
-      });
-
-      host.appendChild(chip);
-    });
-  }
-
   function appendDivider(host, label) {
     var li = document.createElement("li");
     li.className = "cards__divider";
@@ -501,17 +528,16 @@
   }
 
   function appendCard(host, listing) {
-    var category = state.data.categories[listing.category];
     var item = document.createElement("li");
     item.className = "card";
     item.dataset.id = listing.id;
-    var badge = numberStyle(category.color);
+    var badge = numberStyle(state.colors[listing.id]);
     item.style.setProperty("--card-color", badge.bg);
     item.style.setProperty("--card-ink", badge.fg);
     item.tabIndex = 0;
     item.setAttribute("role", "button");
     item.setAttribute("aria-label",
-      listing.name + ", number " + state.numbers[listing.id] + ", " + category.label +
+      listing.name + ", number " + state.numbers[listing.id] +
       (listing.tier === "featured" ? ", featured listing" : "") + ". Show on the map.");
 
     item.innerHTML =
@@ -561,48 +587,23 @@
     }
   }
 
-  /* ---------------------------- Legend -------------------------- */
-
-  function addLegend() {
-    var legend = L.control({ position: "bottomleft" });
-
-    legend.onAdd = function () {
-      var div = L.DomUtil.create("div", "map-legend");
-      var items = Object.keys(state.data.categories).map(function (id) {
-        var category = state.data.categories[id];
-        return '<li><span class="swatch" style="--swatch:' + numberStyle(category.color).bg + '"></span>' +
-               esc(category.label) + "</li>";
-      });
-      div.innerHTML = "<h2>What's what</h2><ul>" + items.join("") + "</ul>";
-      L.DomEvent.disableClickPropagation(div);
-      return div;
-    };
-
-    legend.addTo(map);
-  }
-
   /* ----------------------------- Boot --------------------------- */
 
   function buildMarkers() {
     state.data.listings.forEach(function (listing) {
-      var category = state.data.categories[listing.category];
-      if (!category) {
-        console.warn('Unknown category "' + listing.category + '" on ' + listing.name);
-        category = { label: listing.category, color: "#4b7a4e" };
-      }
       if (listing.tier !== "featured" && listing.tier !== "standard") {
         console.warn('Unknown tier "' + listing.tier + '" on ' + listing.name + "; treating as standard.");
       }
 
       var marker = L.marker(listing.coords, {
-        icon: pinIcon(listing, category),
+        icon: pinIcon(listing),
         title: listing.name,
         alt: listing.name,
         riseOnHover: true,
         keyboard: true
       });
 
-      marker.bindPopup(popupHtml(listing, category), {
+      marker.bindPopup(popupHtml(listing), {
         className: "chapter-popup",
         closeButton: false,
         autoClose: false,
@@ -621,6 +622,101 @@
 
       state.markers[listing.id] = marker;
       marker.addTo(map);
+    });
+  }
+
+  /* ------------------------- "Your location" --------------------- */
+  /* A free-text ZIP or address, geocoded via Nominatim — OpenStreetMap's
+     public, key-free search endpoint, the same data source the map's own
+     attribution already credits — and dropped as a marker so a viewer can
+     see how it sits relative to the listings. Kept entirely separate from
+     state.markers/state.data.listings: it isn't a listing, has no number,
+     and nothing that iterates those (syncActiveStyles, applyFilters) should
+     ever have to know it exists. */
+
+  var userMarker = null;
+
+  function geocode(query) {
+    var url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(query);
+    return fetch(url, { headers: { Accept: "application/json" } })
+      .then(function (response) {
+        if (!response.ok) throw new Error("That lookup failed (" + response.status + "). Try again in a moment.");
+        return response.json();
+      })
+      .then(function (results) {
+        if (!results || !results.length) {
+          throw new Error("No match for that — try a fuller address or a 5-digit ZIP.");
+        }
+        var hit = results[0];
+        return { lat: parseFloat(hit.lat), lng: parseFloat(hit.lon), label: hit.display_name };
+      });
+  }
+
+  function showUserLocation(lat, lng, label) {
+    if (userMarker) map.removeLayer(userMarker);
+
+    userMarker = L.marker([lat, lng], {
+      icon: locationIcon(),
+      title: "Your location",
+      alt: "Your location",
+      keyboard: true,
+      zIndexOffset: 1000 // always above listing pins if the two ever overlap
+    });
+
+    userMarker.bindPopup(
+      '<div class="pop"><p class="pop__ribbon">You are here</p><p class="pop__blurb">' + esc(label) + "</p></div>",
+      { className: "chapter-popup", closeButton: false, autoClose: false, closeOnClick: false }
+    );
+
+    userMarker.addTo(map);
+    map.panTo([lat, lng], { animate: true });
+    userMarker.openPopup();
+  }
+
+  function clearUserLocation() {
+    if (userMarker) {
+      map.removeLayer(userMarker);
+      userMarker = null;
+    }
+    var status = document.getElementById("locateStatus");
+    status.hidden = true;
+    status.textContent = "";
+    document.getElementById("locateClear").hidden = true;
+  }
+
+  function wireLocate() {
+    var form = document.getElementById("locateForm");
+    var input = document.getElementById("locateInput");
+    var status = document.getElementById("locateStatus");
+    var clearBtn = document.getElementById("locateClear");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      var query = input.value.trim();
+      if (!query) return;
+
+      input.disabled = true;
+      status.hidden = false;
+      status.textContent = "Locating…";
+
+      geocode(query)
+        .then(function (result) {
+          showUserLocation(result.lat, result.lng, result.label);
+          status.textContent = "Located — see the map.";
+          clearBtn.hidden = false;
+        })
+        .catch(function (err) {
+          status.textContent = (err && err.message) || "Something went wrong looking that up.";
+        })
+        .then(function () {
+          input.disabled = false; // runs either way — .then() after .catch() is this codebase's "finally"
+        });
+    });
+
+    clearBtn.addEventListener("click", function () {
+      clearUserLocation();
+      input.value = "";
+      input.focus();
     });
   }
 
@@ -665,14 +761,16 @@
 
     addTiles();
     assignNumbers();
+    assignColors();
     hydrateChrome();
-    renderFilters();
     buildMarkers();
     renderCards(orderedListings());
-    addLegend();
     wireSearch();
+    wireLocate();
 
-    /* Clicking the map itself puts the pinned card away. */
+    /* Clicking the map itself puts the pinned card away — and, separately,
+       closes the "you are here" popup if it's open (the marker itself
+       stays; only Clear removes that). */
     map.on("click", function () {
       if (state.activeId) {
         var marker = state.markers[state.activeId];
@@ -680,15 +778,18 @@
         if (marker) marker.closePopup();
         syncActiveStyles();
       }
+      if (userMarker) userMarker.closePopup();
     });
 
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape" && state.activeId) {
+      if (event.key !== "Escape") return;
+      if (state.activeId) {
         var marker = state.markers[state.activeId];
         state.activeId = null;
         if (marker) marker.closePopup();
         syncActiveStyles();
       }
+      if (userMarker) userMarker.closePopup();
     });
   }
 

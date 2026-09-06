@@ -8,38 +8,10 @@
     "attributionNote": "RichMag Labs — Next Chapter Map — 090626."
   },
 
-  "categories": {
-    "independent-living": {
-      "label": "Independent Living",
-      "color": "#9fd0d2"
-    },
-    "assisted-living": {
-      "label": "Assisted Living",
-      "color": "#e54b3c"
-    },
-    "memory-care": {
-      "label": "Memory Care",
-      "color": "#633d7a"
-    },
-    "ccrc": {
-      "label": "CCRC",
-      "color": "#4d6998"
-    },
-    "in-home-care": {
-      "label": "In-Home Care",
-      "color": "#f8a92d"
-    },
-    "senior-services": {
-      "label": "Senior Services",
-      "color": "#2cac84"
-    }
-  },
-
   "listings": [
     {
       "id": "williamsburg-landing",
       "name": "Williamsburg Landing",
-      "category": "ccrc",
       "tier": "standard",
       "blurb": "Williamsburg Landing is an accredited Life Plan Community designed with a blend of beautiful landscaping and elegant colonial architecture to make residents feel comfortable in their home, both inside and outside. Our resort-style community offers residents a plethora of year-round cultural, educational and social activities. Williamsburg Landing is just a few minutes from the prestigious College of William & Mary and less than an hour from three major airports. At Williamsburg Landing, you’ll experience a lifetime of compassionate care, state-of-the-art amenities and a place that your entire family will enjoy visiting.",
       "url": "https://williamsburglanding.org",
@@ -53,7 +25,6 @@
     {
       "id": "brandermill-woods",
       "name": "Brandermill Woods",
-      "category": "ccrc",
       "tier": "standard",
       "blurb": "Redefine Retirement at Brandermill Woods. For 40 years, Brandermill Woods has built and maintained a reputation for exceeding the expectations of retirement living. Let joy unfold around every corner with delicious meals to savor or laughs with old friends and new. Here, beautifully appointed cottages and apartments set the stage for a retirement lifestyle structured around freedom and independence. Because here at Brandermill Woods, we empower our residents to live life on their own terms. Free, fulfilled, and inspired. Visit brandermillwoods.com to learn more about our close-knit community in Midlothian, Virginia.",
       "url": "https://brandermillwoods.com",
@@ -67,7 +38,6 @@
     {
       "id": "cedarfield",
       "name": "Cedarfield",
-      "category": "ccrc",
       "tier": "standard",
       "blurb": "Where Living Well Comes to Life. Since 1996, Cedarfield has provided an engaging culture that fosters independence, individuality and a secure plan for the future. Our sense of community is matched only by our commitment to service and hospitality. Living at Cedarfield means freeing yourself from the hassles of home ownership while exploring your passions. On our wooded 95-acre campus, first-rate amenities, exceptional dining, a commitment to wellness and a vibrant social life come together to create a lifestyle that exceeds expectations. But don’t take our word for it. Come experience Cedarfield for yourself.",
       "url": "https://cedarfield.org",
