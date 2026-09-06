@@ -1,24 +1,26 @@
 /* ---------------------------------------------------------------
    The Next Chapter Map — flat editorial styling
-   A warm, dignified city-magazine look: parchment ground, deep ink,
-   a brick-red masthead accent, and a muted, distinct colour per
-   category. No outlines, no gradients, no drop shadows.
+   A clean, cool-toned look: near-white ground, dark slate ink, a
+   cobalt masthead accent (pulled from the header illustration), and
+   a muted, distinct colour per category. Fredoka + Nunito Sans match
+   the holiday-map project's own type scheme. No outlines, no
+   gradients, no drop shadows.
    --------------------------------------------------------------- */
 
-/* Fraunces and Inter are vendored as trimmed variable fonts covering only
-   the weights this page uses, so one file buys the whole range instead of
-   a file per weight. */
+/* Fredoka and Nunito Sans are vendored as trimmed variable fonts covering
+   only the weights this page uses, so one file buys the whole range
+   instead of a file per weight. */
 @font-face {
-  font-family: "Fraunces";
-  src: url("../vendor/fonts/fraunces-latin-variable.woff2") format("woff2");
+  font-family: "Fredoka";
+  src: url("../vendor/fonts/fredoka-latin-variable.woff2") format("woff2");
   font-weight: 500 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Inter";
-  src: url("../vendor/fonts/inter-latin-variable.woff2") format("woff2");
+  font-family: "Nunito Sans";
+  src: url("../vendor/fonts/nunito-sans-latin-variable.woff2") format("woff2");
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
@@ -52,8 +54,8 @@
   --radius-md: 18px;
   --radius-sm: 12px;
 
-  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Fredoka", ui-rounded, system-ui, sans-serif;
+  --font-body: "Nunito Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 * { box-sizing: border-box; }

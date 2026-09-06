@@ -209,7 +209,7 @@
         '<ellipse cx="21" cy="50" rx="9" ry="2.6" fill="#fff" opacity=".85"/>' +
         '<path d="M21 2a14 14 0 0 1 14 14c0 9.5-14 30-14 30S7 25.5 7 16A14 14 0 0 1 21 2z" fill="' + style.bg + '"/>' +
         '<text x="21" y="' + (digits > 2 ? 20.5 : 21.5) + '" text-anchor="middle" ' +
-          'font-family="Fraunces, Georgia, serif" font-weight="600" ' +
+          'font-family="Fredoka, ui-rounded, system-ui, sans-serif" font-weight="600" ' +
           'font-size="' + (digits > 2 ? 12 : 16) + '" fill="' + style.fg + '">' +
           number +
         "</text>" +

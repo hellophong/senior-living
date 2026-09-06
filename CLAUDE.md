@@ -95,13 +95,18 @@ could otherwise pull the view back and squash the Richmond cluster where most of
 directory lives.
 
 **Everything is vendored.** Leaflet and both typefaces live in `vendor/`; there are no
-CDN or Google Fonts requests. Fraunces and Inter are vendored as *trimmed variable
-fonts* (`fraunces-latin-variable.woff2`, `inter-latin-variable.woff2`) rather than one
-static file per weight: each `@font-face` declares a `font-weight` range (`500 600` /
-`400 700`) over a single file, and the browser instantiates the exact weight CSS asks
-for via the font's `wght` axis. A weight used in CSS still needs to fall inside a
-vendored file's declared range — asking for `font-weight: 300` on Fraunces, outside
-`500 600`, renders whatever the browser's font-matching falls back to, not a real 300.
+CDN or Google Fonts requests. Fredoka and Nunito Sans — the same pairing the holiday-map
+project uses — are vendored as *trimmed variable fonts* (`fredoka-latin-variable.woff2`,
+`nunito-sans-latin-variable.woff2`) rather than one static file per weight: each
+`@font-face` declares a `font-weight` range (`500 600` / `400 700`) over a single file,
+and the browser instantiates the exact weight CSS asks for via the font's `wght` axis. A
+weight used in CSS still needs to fall inside a vendored file's declared range — asking
+for `font-weight: 300` on Fredoka, outside `500 600`, renders whatever the browser's
+font-matching falls back to, not a real 300. The pin-number `<text>` in `pinIcon()`
+(`js/app.js`) sets its own literal `font-family="Fredoka, …"` rather than
+`var(--font-display)`, matching how the rest of that generated SVG string — colours
+included — is built from literal values, not CSS custom properties; keep that string in
+sync with `--font-display` by hand if the display font ever changes again.
 
 **The header artwork is referenced with `<img>`, never inlined**, so swapping it is a
 file-plus-two-numbers change: replace `assets/SeniorLiving-BlueCommunity.png`, update its

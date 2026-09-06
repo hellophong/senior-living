@@ -16,8 +16,9 @@ to keep the card pinned open, `Esc` or click the map to put it away.
 ## Running it
 
 Everything is static — no build step, no dependencies to install. Leaflet 1.9.4 and
-both typefaces (Fraunces, Inter) are vendored in `vendor/`, so there are no CDN or
-Google Fonts requests and the page works offline. Because the directory is loaded with
+both typefaces (Fredoka, Nunito Sans — the same pairing as the holiday-map project) are
+vendored in `vendor/`, so there are no CDN or Google Fonts requests and the page works
+offline. Because the directory is loaded with
 `fetch`, it does need to be served over HTTP rather than opened as a `file://` URL:
 
 ```bash
@@ -146,8 +147,12 @@ data/communities.json                 the directory itself
 assets/SeniorLiving-BlueCommunity.png header illustration
 assets/photos/*.svg                   placeholder listing photos — swap for real photography
 vendor/leaflet/                        Leaflet 1.9.4 (BSD-2-Clause), vendored
-vendor/fonts/                          Fraunces + Inter (SIL OFL), vendored
+vendor/fonts/                          Fredoka + Nunito Sans (SIL OFL), vendored
 ```
+
+Typography is Fredoka (masthead, listing/community names, pin and badge numbers, the
+legend heading) over Nunito Sans (everything else) — the same pairing the holiday-map
+project uses, so the two directories read as one family even with different palettes.
 
 The palette is a clean, cool near-white ground with dark slate text and a cobalt-blue
 masthead accent — `#f7f9fc` ground, `#1f2733` ink, `#2454c9` brand — pulled from the
