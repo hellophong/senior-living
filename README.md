@@ -85,19 +85,18 @@ listing is hard-coded in the HTML or JS. Edit that file and reload.
 
   "listings": [
     {
-      "id": "bellemont-gardens",        // unique; used internally to link pin ↔ card
-      "name": "Bellemont Gardens",
-      "category": "independent-living", // must match a key in "categories"
-      "tier": "featured",               // "featured" or "standard" — see below
+      "id": "williamsburg-landing",      // unique; used internally to link pin ↔ card
+      "name": "Williamsburg Landing",
+      "category": "ccrc",               // must match a key in "categories"
+      "tier": "standard",               // "featured" or "standard" — see below
       "blurb": "One or two sentences.",
-      "url": "https://example.com",     // optional — the card's link button
-      "address": "88 Church St",        // optional
+      "url": "https://williamsburglanding.org", // optional — the card's link button
+      "address": "5700 Williamsburg Landing Drive, Williamsburg, VA 23185", // optional
       "hours": "Tours daily, 9am–5pm",  // optional
-      "phone": "804-555-0100",          // optional; shown as a tel: link
-      "coords": [37.5674, -77.4661],    // [latitude, longitude]
+      "phone": "800-554-5517",          // optional; shown as a tel: link
+      "coords": [37.245442, -76.719175], // [latitude, longitude]
       "photos": [                       // optional; first one shows even on "standard"
-        "assets/photos/exterior-1.svg",
-        "assets/photos/garden.svg"
+        "assets/photos/exterior-1.svg"
       ]
     }
   ]
@@ -119,6 +118,12 @@ listing is hard-coded in the HTML or JS. Edit that file and reload.
   standard listing's card shows just the first photo. A listing with no `photos` shows
   none — the field is optional either way.
 
+Every listing in the current dataset is `"standard"` — there's no paid-placement tier
+active right now, so nobody is grouped apart from anybody else and every card looks the
+same. The mechanism is fully wired up and unchanged underneath: mark any listing
+`"featured"` and it picks up the bigger pin, its own divider at the top of the sidebar,
+and a photo carousel (if it has more than one photo) immediately, no code changes needed.
+
 ### Adding a listing
 
 Append an object to `listings` with a unique `id`, a `category` that exists in
@@ -133,9 +138,11 @@ dot in the legend.
 Text from the JSON is HTML-escaped before rendering, so apostrophes and ampersands in
 listing names are safe.
 
-> The current dataset is four fake, clearly-placeholder listings (`example.com` links,
-> `555` phone numbers, hand-drawn placeholder photos) so the build can be exercised end
-> to end. Swap in the real listings the same way: edit the JSON, replace the photo files.
+> The directory currently holds three real Life Plan Communities (all categorized as
+> `ccrc`) — Williamsburg Landing, Brandermill Woods and Cedarfield — with real
+> addresses, phone numbers and sites, and coordinates copied from Google Maps for each.
+> Their photos are still the hand-drawn placeholder SVGs, standing in until real
+> photography arrives; swap those in the same way (edit the JSON, replace the files).
 
 ## What's in the box
 

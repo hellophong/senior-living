@@ -3,9 +3,9 @@
     "titleLead": "Richmond Magazine Presents",
     "title": "The Next Chapter",
     "subtitle": "Senior living communities and services around Richmond",
-    "center": [37.555, -77.49],
-    "zoom": 11,
-    "attributionNote": "RichMag Labs — Next Chapter Map — placeholder data, 090626."
+    "center": [37.54, -77.6],
+    "zoom": 10,
+    "attributionNote": "RichMag Labs — Next Chapter Map — 090626."
   },
 
   "categories": {
@@ -37,67 +37,45 @@
 
   "listings": [
     {
-      "id": "bellemont-gardens",
-      "name": "Bellemont Gardens",
-      "category": "independent-living",
-      "tier": "featured",
-      "blurb": "Maintenance-free cottages and apartments a short walk from the Boulevard, with a full activities calendar, chef-prepared dining and a heated pool.",
-      "url": "https://example.com/bellemont-gardens",
-      "address": "4200 The Boulevard, Richmond, VA",
-      "phone": "804-555-0142",
-      "hours": "Tours daily, 9am–5pm",
-      "coords": [37.5674, -77.4661],
+      "id": "williamsburg-landing",
+      "name": "Williamsburg Landing",
+      "category": "ccrc",
+      "tier": "standard",
+      "blurb": "An accredited Life Plan Community blending colonial architecture with resort-style amenities and year-round cultural, educational and social programming, minutes from the College of William & Mary.",
+      "url": "https://williamsburglanding.org",
+      "address": "5700 Williamsburg Landing Drive, Williamsburg, VA 23185",
+      "phone": "800-554-5517",
+      "coords": [37.245442, -76.719175],
       "photos": [
-        "assets/photos/exterior-1.svg",
-        "assets/photos/garden.svg",
-        "assets/photos/dining.svg"
+        "assets/photos/exterior-1.svg"
       ]
     },
     {
-      "id": "fan-district-assisted-living",
-      "name": "Fan District Assisted Living",
-      "category": "assisted-living",
+      "id": "brandermill-woods",
+      "name": "Brandermill Woods",
+      "category": "ccrc",
       "tier": "standard",
-      "blurb": "A twenty-four-room residence in a converted Fan rowhouse, offering personal care and medication management, with a shared porch that looks out over Monument Avenue.",
-      "url": "https://example.com/fan-district-assisted-living",
-      "address": "1900 Monument Ave, Richmond, VA",
-      "phone": "804-555-0198",
-      "hours": "Office hours Mon–Fri, 8:30am–5pm",
-      "coords": [37.5556, -77.4652],
+      "blurb": "A Life Plan Community in Midlothian for 40 years, with beautifully appointed cottages and apartments built around freedom, independence and a close-knit social life.",
+      "url": "https://brandermillwoods.com",
+      "address": "14311 Brandermill Woods Trail, Midlothian, VA 23112",
+      "phone": "804-215-1895",
+      "coords": [37.459895, -77.667179],
       "photos": [
         "assets/photos/exterior-2.svg"
       ]
     },
     {
-      "id": "magnolia-grove-memory-care",
-      "name": "Magnolia Grove Memory Care",
-      "category": "memory-care",
-      "tier": "featured",
-      "blurb": "A secure, garden-centered community built for dementia and Alzheimer's care, with a low staff-to-resident ratio and a courtyard designed for safe wandering.",
-      "url": "https://example.com/magnolia-grove-memory-care",
-      "address": "9500 Quioccasin Road, Henrico, VA",
-      "phone": "804-555-0173",
-      "hours": "Tours by appointment",
-      "coords": [37.6135, -77.5852],
-      "photos": [
-        "assets/photos/exterior-1.svg",
-        "assets/photos/garden.svg",
-        "assets/photos/common-room.svg"
-      ]
-    },
-    {
-      "id": "riverside-in-home-care",
-      "name": "Riverside In-Home Care",
-      "category": "in-home-care",
+      "id": "cedarfield",
+      "name": "Cedarfield",
+      "category": "ccrc",
       "tier": "standard",
-      "blurb": "Licensed caregivers providing companionship, light housekeeping and personal care by the hour, across the greater Richmond area.",
-      "url": "https://example.com/riverside-in-home-care",
-      "address": "Serving greater Richmond, VA",
-      "phone": "804-555-0161",
-      "hours": "Care available 24/7; office Mon–Fri 8am–6pm",
-      "coords": [37.548, -77.436],
+      "blurb": "A Life Plan Community on a wooded 95-acre campus since 1996, with first-rate amenities, dining and wellness built around independence, individuality and a secure plan for the future.",
+      "url": "https://cedarfield.org",
+      "address": "2300 Cedarfield Parkway, Richmond, VA 23233",
+      "phone": "804-376-8985",
+      "coords": [37.630923, -77.58408],
       "photos": [
-        "assets/photos/caregiver.svg"
+        "assets/photos/garden.svg"
       ]
     }
   ]

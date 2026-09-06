@@ -153,14 +153,28 @@ Attribution for Stadia, OpenMapTiles and OpenStreetMap must stay visible.
 
 ## Content conventions
 
-The header illustration (`assets/SeniorLiving-BlueCommunity-02.svg`) is real. The dataset
-(`data/communities.json`) is still placeholder: four fictional listings with
-`example.com` links and `555`-exchange phone numbers, and hand-drawn flat-vector SVGs
-standing in for every listing photo — deliberately not photorealistic, so nothing gets
-mistaken for real photography. When the real listing data arrives, replace it in place
-(same file paths, same JSON shape) rather than restructuring around it. Publish `hours`
-only when they come from a community's own copy — hours scraped from a third-party
-listing may be stale, and a wrong time sends someone to a locked door.
+The header illustration (`assets/SeniorLiving-BlueCommunity-02.svg`) is real, and so is
+the dataset (`data/communities.json`) now — three real Life Plan Communities
+(Williamsburg Landing, Brandermill Woods, Cedarfield), all category `ccrc`, all tier
+`standard`. Their `coords` are real too, copied via Google Maps' right-click — not
+interpolated — per the coordinate rule below. Photos are still hand-drawn flat-vector
+SVGs standing in for each community's own — deliberately not photorealistic, so nothing
+gets mistaken for real photography — until real photography arrives; swap them in place
+(same file paths, same JSON shape) the same way real listing data replaced the fake set.
+Publish `hours` only when they come from a community's own copy — hours scraped from a
+third-party listing may be stale, and a wrong time sends someone to a locked door. None
+of the three came with hours, so none is set.
+
+All three communities happen to be CCRCs (a "Life Plan Community" *is* a CCRC — multiple
+levels of care on one campus — so that's their most accurate single category even though
+each also offers independent living, assisted living, etc. as part of that continuum).
+That's a fact about the current dataset, not a limitation of the schema: the other five
+categories still exist and render correctly, they just have no listings yet. Every
+listing is also `tier: "standard"` — there's no paid-placement tier active right now, so
+the sidebar shows one flat list with no "Featured" divider and every pin is the same
+size. That's a data choice, not a code change: the tier mechanism (`FEATURED_SCALE`,
+the divider grouping in `renderCards()`, the photo carousel) is untouched and fully
+live — mark any listing `"featured"` and all three behaviors resume immediately.
 
 ## Deploying
 
