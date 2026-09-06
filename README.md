@@ -134,29 +134,33 @@ listing names are safe.
 
 > The current dataset is four fake, clearly-placeholder listings (`example.com` links,
 > `555` phone numbers, hand-drawn placeholder photos) so the build can be exercised end
-> to end. Swap in the real listings — and the real header illustration in
-> `assets/header.svg` — the same way: edit the JSON, replace the files.
+> to end. Swap in the real listings the same way: edit the JSON, replace the photo files.
 
 ## What's in the box
 
 ```
-index.html                 page shell — masthead, illustrated band, sidebar, map frame
-css/styles.css              the flat editorial look: palette, masthead, cards, pins
-js/app.js                   map setup, pins, hover cards, filtering, search, legend
-data/communities.json       the directory itself
-assets/header.svg           placeholder banner illustration — swap for the real one
-assets/photos/*.svg         placeholder listing photos — swap for real photography
-vendor/leaflet/              Leaflet 1.9.4 (BSD-2-Clause), vendored
-vendor/fonts/                Fraunces + Inter (SIL OFL), vendored
+index.html                            page shell — masthead, illustrated band, sidebar, map frame
+css/styles.css                        the flat editorial look: palette, masthead, cards, pins
+js/app.js                             map setup, pins, hover cards, filtering, search, legend
+data/communities.json                 the directory itself
+assets/SeniorLiving-BlueCommunity.png header illustration
+assets/photos/*.svg                   placeholder listing photos — swap for real photography
+vendor/leaflet/                        Leaflet 1.9.4 (BSD-2-Clause), vendored
+vendor/fonts/                          Fraunces + Inter (SIL OFL), vendored
 ```
 
-The palette is a warm parchment ground, deep-ink text, and a brick-red masthead accent
-(a nod to Richmond's rowhouses) — `#f5efe6` ground, `#332822` ink, `#7c2d3a` brand —
-plus one distinct, muted colour per category: teal for independent living, terracotta
-for assisted living, plum for memory care, navy for CCRCs, ochre for in-home care, sage
-for senior services. The banner illustration is sized with `aspect-ratio` so it scales
-with the viewport without cropping, and its own ground colour matches `--ground`
-exactly so the band blends into the page.
+The palette is a clean, cool near-white ground with dark slate text and a cobalt-blue
+masthead accent — `#f7f9fc` ground, `#1f2733` ink, `#2454c9` brand — pulled from the
+header illustration's own line colour, plus one distinct, muted colour per category:
+teal for independent living, terracotta for assisted living, plum for memory care, navy
+for CCRCs, ochre for in-home care, sage for senior services. The illustration bleeds to
+all four edges of its own canvas, so the banner fits it with `object-fit: contain`
+(never cropping) rather than `cover`; `--ground` matches its near-white background so
+any letterboxing on wide screens blends in rather than reading as a visible box.
+
+To swap the header illustration again: replace the file, update its `src` in
+`index.html`, and update the `aspect-ratio` in `.banner__scene` (`css/styles.css`) to
+match the new file's own width/height.
 
 ## Features
 

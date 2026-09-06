@@ -143,8 +143,11 @@
     return (hi + 0.05) / (lo + 0.05);
   }
 
-  var INK = "#332822";
-  var INK_DEEP = "#241a15";
+  /* Must track --ink / the header illustration's brand blue in css/styles.css —
+     this is what actually gets used as a pin/badge/chip's text colour when it
+     reads better than white, not just a value contrast is checked against. */
+  var INK = "#1f2733";
+  var INK_DEEP = "#131822";
   var AA = 4.5;
 
   function mix(hex, towards, amount) {

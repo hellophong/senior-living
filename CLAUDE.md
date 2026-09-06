@@ -103,11 +103,18 @@ for via the font's `wght` axis. A weight used in CSS still needs to fall inside 
 vendored file's declared range — asking for `font-weight: 300` on Fraunces, outside
 `500 600`, renders whatever the browser's font-matching falls back to, not a real 300.
 
-**The header artwork is referenced with `<img>`, never inlined**, specifically so it can
-be swapped for the real illustration by replacing `assets/header.svg` alone — no HTML/CSS
-changes needed. `.banner__scene` sizes with `aspect-ratio: 1600 / 300` (the placeholder's
-own canvas) plus a `max-height`; if the real artwork has a different canvas size, update
-that ratio to match, or the new image will crop or letterbox against the old one's shape.
+**The header artwork is referenced with `<img>`, never inlined**, so swapping it is a
+file-plus-two-numbers change: replace `assets/SeniorLiving-BlueCommunity.png`, update its
+`src` in `index.html`, and update `.banner__scene`'s `aspect-ratio` (currently
+`2172 / 724`, that file's own canvas) in `css/styles.css` to match. This illustration
+bleeds to all four edges of its canvas (no dead margin — the content bounding box is
+within a few px of every edge), so it's fit with `object-fit: contain`, not `cover`:
+`cover` would crop into real figures (the cane-walker at the far left, the dog-walker at
+the far right), where `contain` only ever shrinks the whole thing or leaves matching-colour
+margin, never cuts it. A future replacement with real dead margin (sky/ground padding
+before content starts) could switch back to `cover` for a tighter, edge-to-edge look —
+check the new file's content bounding box before doing that, the same way this one was
+checked (a not-near-white pixel scan) rather than assuming.
 
 **Stacked layout needs `.layout { flex: 0 0 auto; min-height: auto; }`.** Without it the
 grid shrinks to the leftover viewport height, the sidebar's flex column collapses its card
@@ -128,14 +135,14 @@ Attribution for Stadia, OpenMapTiles and OpenStreetMap must stay visible.
 
 ## Content conventions
 
-The current dataset (`data/communities.json`) is placeholder: four fictional listings
-with `example.com` links and `555`-exchange phone numbers, and hand-drawn flat-vector
-SVGs standing in for both the header illustration and every listing photo — deliberately
-not photorealistic, so nothing gets mistaken for real photography. When the real listing
-data and header illustration arrive, replace them in place (same file paths, same JSON
-shape) rather than restructuring around them. Publish `hours` only when they come from a
-community's own copy — hours scraped from a third-party listing may be stale, and a wrong
-time sends someone to a locked door.
+The header illustration (`assets/SeniorLiving-BlueCommunity.png`) is real. The dataset
+(`data/communities.json`) is still placeholder: four fictional listings with
+`example.com` links and `555`-exchange phone numbers, and hand-drawn flat-vector SVGs
+standing in for every listing photo — deliberately not photorealistic, so nothing gets
+mistaken for real photography. When the real listing data arrives, replace it in place
+(same file paths, same JSON shape) rather than restructuring around it. Publish `hours`
+only when they come from a community's own copy — hours scraped from a third-party
+listing may be stale, and a wrong time sends someone to a locked door.
 
 ## Deploying
 
