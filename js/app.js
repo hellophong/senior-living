@@ -635,9 +635,25 @@
      ever have to know it exists. */
 
   var userMarker = null;
+  var US_ZIP = /^\d{5}(-\d{4})?$/;
 
+  /* This directory is Richmond, VA only, so every lookup is restricted to
+     the US (countrycodes=us) — without it, Nominatim's free-text search has
+     no country context at all, and a bare number like a ZIP can just as
+     easily match some unrelated numeric identifier on the other side of the
+     world (a real bug: "23832", a real Chester, VA ZIP, resolved to
+     Ukraine). A 5-digit (optionally ZIP+4) input goes further and uses
+     Nominatim's structured `postalcode` field instead of free text — that
+     tells it up front "this is a postal code," rather than leaving it to
+     guess from a bare number, which is the more precise fix for exactly the
+     input this bug report was about. Anything else (a street address, a
+     place name) still goes through as free text, just US-restricted. */
   function geocode(query) {
-    var url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(query);
+    var zip = US_ZIP.exec(query);
+    var params = zip
+      ? "postalcode=" + encodeURIComponent(zip[0].slice(0, 5))
+      : "q=" + encodeURIComponent(query);
+    var url = "https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=us&" + params;
     return fetch(url, { headers: { Accept: "application/json" } })
       .then(function (response) {
         if (!response.ok) throw new Error("That lookup failed (" + response.status + "). Try again in a moment.");

@@ -32,7 +32,9 @@ contrast ratios. Three things need explicit setup:
 - **"Your location" needs Nominatim mocked too**, same reasoning as the tiles: intercept
   `**://nominatim.openstreetmap.org/**` and fulfil with a canned
   `[{"lat":"…","lon":"…","display_name":"…"}]` (or `[]`, to exercise the no-results
-  error path) rather than relying on the real service being reachable.
+  error path) rather than relying on the real service being reachable. If a test asserts
+  on the request itself, remember `geocode()` sends a 5-digit ZIP as `postalcode=`, not
+  `q=` — check both params, not just `q`, or a ZIP-shaped assertion will read as `null`.
 
 Geocoding services and most third-party sites are typically blocked in a sandboxed
 dev/CI environment — that's exactly why the app's own `geocode()` needs mocking rather
@@ -223,6 +225,18 @@ or automated geocoding — don't repurpose `geocode()` to look up more than what
 visitor typed. The map's attribution control already credits "OpenStreetMap
 contributors" for tile data; that same credit covers Nominatim results too, since both
 come from the same underlying OSM data — no separate attribution line was added.
+
+**Every lookup carries `countrycodes=us`, and a 5-digit (or ZIP+4) input skips free text
+entirely for Nominatim's structured `postalcode` field instead.** Without the country
+restriction, a bare ZIP has no context telling Nominatim it's American — this directory
+is Richmond, VA only, so a non-US result is never correct, and free-text search on a
+plain number is a coin flip against whatever else in the world shares that numeral. This
+was a real bug, not a hypothetical: "23832" (Chester, VA) resolved to Ukraine before
+`US_ZIP` and the country restriction were added. `US_ZIP` only strips to 5 digits for
+the `postalcode` param — a typed ZIP+4 suffix is dropped, not validated, since OSM's own
+postal-code data is 5-digit-granular anyway. Keep both the regex-detected structured path
+*and* the free-text fallback's `countrycodes=us` — a full street address still needs to
+go in as `q=`, but it needs the same country restriction for the same reason a ZIP does.
 
 `showUserLocation()` replaces the previous marker outright rather than adding another
 (`if (userMarker) map.removeLayer(userMarker)` before creating the new one) — there is
