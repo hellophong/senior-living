@@ -23,7 +23,7 @@
     hoverId: null,         // listing under the cursor
     filters: new Set(),    // empty === show everything
     query: "",
-    closeTimer: null
+    closeTimers: {}        // id -> pending hover-close timeout, one per listing
   };
 
   var map;
@@ -322,16 +322,23 @@
      card is a popup that opens on hover and lingers while the pointer is
      on it. Clicking a pin keeps it open until you dismiss it. */
 
-  function cancelClose() {
-    if (state.closeTimer) {
-      clearTimeout(state.closeTimer);
-      state.closeTimer = null;
+  /* Each listing gets its own close timer, keyed by id — not one shared
+     timer. Hovering card A then quickly card B used to cancel *whichever*
+     close was pending, which was always A's, so A's popup was left open
+     for good once B's own close fired. Per-id timers let several
+     hover-opened popups (a stray one mid-transition, plus a pinned one)
+     close independently on their own schedules. */
+  function cancelClose(id) {
+    if (state.closeTimers[id]) {
+      clearTimeout(state.closeTimers[id]);
+      delete state.closeTimers[id];
     }
   }
 
   function scheduleClose(id) {
-    cancelClose();
-    state.closeTimer = setTimeout(function () {
+    cancelClose(id);
+    state.closeTimers[id] = setTimeout(function () {
+      delete state.closeTimers[id];
       if (state.activeId === id) return; // pinned open by a click
       var marker = state.markers[id];
       if (marker) marker.closePopup();
@@ -344,7 +351,7 @@
     var el = marker.getPopup() && marker.getPopup().getElement();
     if (!el || el._chapterBound) return;
     el._chapterBound = true;
-    L.DomEvent.on(el, "mouseenter", cancelClose);
+    L.DomEvent.on(el, "mouseenter", function () { cancelClose(id); });
     L.DomEvent.on(el, "mouseleave", function () { scheduleClose(id); });
   }
 
@@ -386,7 +393,7 @@
   function showCard(id, opts) {
     var marker = state.markers[id];
     if (!marker) return;
-    cancelClose();
+    cancelClose(id); // only this listing's own pending close, not any other's
     state.hoverId = id;
     /* Pan (instantly, not animated) *before* opening: Leaflet's own autoPan
        runs synchronously inside openPopup() against whatever view exists at

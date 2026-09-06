@@ -74,6 +74,15 @@ same pattern (`bindCarousel()`) wires the featured-tier carousel's buttons once 
 popup element, guarded by `carousel._chapterBound` so repeated `popupopen` events don't
 double-bind listeners.
 
+**`state.closeTimers` is one pending-close timeout per listing id, not one shared
+timer.** `autoClose:false`/`closeOnClick:false` on every popup (needed so hovering one
+card can't auto-close another that's pinned) mean several popups can be genuinely open
+at once during a fast hover across the sidebar. A single shared timer means hovering
+card B while card A's close is still pending cancels *A's* close (the only one there
+is), not B's — A's popup is then never scheduled to close again and is stuck open.
+`cancelClose(id)`/`scheduleClose(id)` must stay keyed by id so each popup's close runs
+on its own clock.
+
 **All colour-on-colour pairs go through `numberStyle()`.** It picks white or deep ink
 for a number label by contrast, and where neither reaches 4.5:1 it deepens the fill
 until white does. Pins, sidebar badges, popup badges, chips and legend dots all use its
