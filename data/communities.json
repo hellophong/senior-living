@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "titleLead": "Richmond Magazine Presents",
+    "title": "The Next Chapter Map",
+    "subtitle": "Senior living communities and services around Richmond",
+    "center": [37.555, -77.49],
+    "zoom": 11,
+    "attributionNote": "RichMag Labs — Next Chapter Map — placeholder data, 090626."
+  },
+
+  "categories": {
+    "independent-living": {
+      "label": "Independent Living",
+      "color": "#2f7d6b"
+    },
+    "assisted-living": {
+      "label": "Assisted Living",
+      "color": "#b8502c"
+    },
+    "memory-care": {
+      "label": "Memory Care",
+      "color": "#7a4f8a"
+    },
+    "ccrc": {
+      "label": "CCRC",
+      "color": "#33587e"
+    },
+    "in-home-care": {
+      "label": "In-Home Care",
+      "color": "#a9791f"
+    },
+    "senior-services": {
+      "label": "Senior Services",
+      "color": "#4b7a4e"
+    }
+  },
+
+  "listings": [
+    {
+      "id": "bellemont-gardens",
+      "name": "Bellemont Gardens",
+      "category": "independent-living",
+      "tier": "featured",
+      "blurb": "Maintenance-free cottages and apartments a short walk from the Boulevard, with a full activities calendar, chef-prepared dining and a heated pool.",
+      "url": "https://example.com/bellemont-gardens",
+      "address": "4200 The Boulevard, Richmond, VA",
+      "phone": "804-555-0142",
+      "hours": "Tours daily, 9am–5pm",
+      "coords": [37.5674, -77.4661],
+      "photos": [
+        "assets/photos/exterior-1.svg",
+        "assets/photos/garden.svg",
+        "assets/photos/dining.svg"
+      ]
+    },
+    {
+      "id": "fan-district-assisted-living",
+      "name": "Fan District Assisted Living",
+      "category": "assisted-living",
+      "tier": "standard",
+      "blurb": "A twenty-four-room residence in a converted Fan rowhouse, offering personal care and medication management, with a shared porch that looks out over Monument Avenue.",
+      "url": "https://example.com/fan-district-assisted-living",
+      "address": "1900 Monument Ave, Richmond, VA",
+      "phone": "804-555-0198",
+      "hours": "Office hours Mon–Fri, 8:30am–5pm",
+      "coords": [37.5556, -77.4652],
+      "photos": [
+        "assets/photos/exterior-2.svg"
+      ]
+    },
+    {
+      "id": "magnolia-grove-memory-care",
+      "name": "Magnolia Grove Memory Care",
+      "category": "memory-care",
+      "tier": "featured",
+      "blurb": "A secure, garden-centered community built for dementia and Alzheimer's care, with a low staff-to-resident ratio and a courtyard designed for safe wandering.",
+      "url": "https://example.com/magnolia-grove-memory-care",
+      "address": "9500 Quioccasin Road, Henrico, VA",
+      "phone": "804-555-0173",
+      "hours": "Tours by appointment",
+      "coords": [37.6135, -77.5852],
+      "photos": [
+        "assets/photos/exterior-1.svg",
+        "assets/photos/garden.svg",
+        "assets/photos/common-room.svg"
+      ]
+    },
+    {
+      "id": "riverside-in-home-care",
+      "name": "Riverside In-Home Care",
+      "category": "in-home-care",
+      "tier": "standard",
+      "blurb": "Licensed caregivers providing companionship, light housekeeping and personal care by the hour, across the greater Richmond area.",
+      "url": "https://example.com/riverside-in-home-care",
+      "address": "Serving greater Richmond, VA",
+      "phone": "804-555-0161",
+      "hours": "Care available 24/7; office Mon–Fri 8am–6pm",
+      "coords": [37.548, -77.436],
+      "photos": [
+        "assets/photos/caregiver.svg"
+      ]
+    }
+  ]
+}

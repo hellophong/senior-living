@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-hidden="true">
+  <title>Placeholder photo — in-home visit</title>
+  <rect width="400" height="300" fill="#f5efe6" />
+  <rect y="210" width="400" height="90" fill="#dccdb3" />
+  <!-- window -->
+  <rect x="30" y="30" width="80" height="80" fill="#9fc7c2" stroke="#332822" stroke-width="3" />
+  <line x1="70" y1="30" x2="70" y2="110" stroke="#332822" stroke-width="2" />
+  <line x1="30" y1="70" x2="110" y2="70" stroke="#332822" stroke-width="2" />
+  <!-- seated figure -->
+  <g>
+    <circle cx="150" cy="150" r="24" fill="#a9791f" />
+    <rect x="122" y="176" width="56" height="70" rx="18" fill="#33587e" />
+    <rect x="118" y="230" width="24" height="50" rx="8" fill="#332822" />
+    <rect x="160" y="230" width="24" height="50" rx="8" fill="#332822" />
+  </g>
+  <!-- caregiver figure, kneeling in conversation -->
+  <g>
+    <circle cx="260" cy="130" r="24" fill="#7a4f8a" />
+    <rect x="232" y="156" width="56" height="80" rx="18" fill="#7c2d3a" />
+    <rect x="228" y="222" width="26" height="46" rx="8" fill="#332822" />
+    <rect x="272" y="222" width="26" height="46" rx="8" fill="#332822" />
+  </g>
+  <!-- small side table with a mug -->
+  <rect x="205" y="220" width="18" height="6" fill="#5c4a36" />
+  <rect x="210" y="226" width="8" height="18" fill="#5c4a36" />
+  <ellipse cx="214" cy="216" rx="8" ry="5" fill="#ffffff" stroke="#332822" stroke-width="1.5" />
+</svg>

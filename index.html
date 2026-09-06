@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Next Chapter Map</title>
+  <meta name="description" content="Interactive map of senior living communities, care and services around Richmond, VA." />
+
+  <!-- Leaflet 1.9.4 and both typefaces are vendored so the map works offline and without a CDN. -->
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23f5efe6'/><path d='M16 4a9 9 0 0 1 9 9c0 6.5-9 15-9 15S7 19.5 7 13a9 9 0 0 1 9-9z' fill='%237c2d3a'/><circle cx='16' cy='13' r='3.4' fill='%23f5efe6'/></svg>" />
+</head>
+<body>
+  <header class="banner">
+    <div class="banner__inner">
+      <h1 class="banner__title" id="siteTitle">
+        <span class="banner__lead" id="siteTitleLead">Richmond Magazine Presents</span>
+        <span class="banner__main" id="siteTitleMain">The Next Chapter Map</span>
+      </h1>
+      <p class="banner__subtitle" id="siteSubtitle">Senior living communities and services around Richmond</p>
+    </div>
+
+    <div class="banner__scene">
+      <img src="assets/header.svg" alt="" aria-hidden="true" width="1600" height="300" />
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar" aria-label="Directory">
+      <div class="sidebar__head">
+        <label class="search" for="search">
+          <svg class="search__icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="2" />
+            <path d="M11 11l4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <input id="search" type="search" placeholder="Search the directory…" autocomplete="off" />
+        </label>
+        <div class="filters" id="filters" role="group" aria-label="Filter by category"></div>
+      </div>
+      <ul class="cards" id="cards"></ul>
+      <p class="sidebar__note" id="sidebarNote"></p>
+    </aside>
+
+    <div class="map-frame">
+      <div id="map" role="application" aria-label="Map of senior living communities and services"></div>
+      <noscript><p class="noscript">This map needs JavaScript to open.</p></noscript>
+    </div>
+  </main>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

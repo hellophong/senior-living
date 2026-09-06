@@ -1,0 +1,689 @@
+/* ---------------------------------------------------------------
+   The Next Chapter Map — flat editorial styling
+   A warm, dignified city-magazine look: parchment ground, deep ink,
+   a brick-red masthead accent, and a muted, distinct colour per
+   category. No outlines, no gradients, no drop shadows.
+   --------------------------------------------------------------- */
+
+/* Fraunces and Inter are vendored as trimmed variable fonts covering only
+   the weights this page uses, so one file buys the whole range instead of
+   a file per weight. */
+@font-face {
+  font-family: "Fraunces";
+  src: url("../vendor/fonts/fraunces-latin-variable.woff2") format("woff2");
+  font-weight: 500 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../vendor/fonts/inter-latin-variable.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ground + ink */
+  --ground: #f5efe6;        /* warm parchment, matches the header artwork's own ground */
+  --ground-warm: #efe4d4;
+  --paper: #ffffff;
+  --ink: #332822;
+  --ink-soft: #6f5f52;
+
+  /* masthead + featured accent — Richmond brick, not tied to any category */
+  --brand: #7c2d3a;
+  --brand-deep: #5c202b;
+
+  /* the category palette, plus a couple of chrome-only accents */
+  --teal: #2f7d6b;
+  --terracotta: #b8502c;
+  --plum: #7a4f8a;
+  --navy: #33587e;
+  --ochre: #a9791f;
+  --sage: #4b7a4e;
+  --gold: #d8a544;
+
+  --radius-lg: 26px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: var(--ground);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+a { color: var(--brand); }
+
+/* ----------------------------- Banner ----------------------------- */
+
+.banner {
+  position: relative;
+  flex: none;
+  background: var(--ground);
+  color: var(--ink);
+  z-index: 800;
+  padding: 1.6rem 0 0;
+}
+
+.banner__inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+.banner__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+  line-height: 1;
+  margin: 0;
+  color: var(--brand);
+}
+
+/* "Richmond Magazine Presents" rides above the name at a fraction of its size */
+.banner__lead {
+  display: block;
+  font-size: .34em;
+  font-weight: 500;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: .28em;
+}
+
+.banner__main {
+  display: block;
+  font-size: 1.5em;
+  font-weight: 600;
+  line-height: .95;
+  letter-spacing: -.015em;
+}
+
+.banner__subtitle {
+  margin: .25rem 0 0;
+  font-size: .95rem;
+  color: var(--ink-soft);
+}
+
+/* the illustrated band; its own ground colour matches --ground, so it
+   blends into the page rather than sitting in a box. aspect-ratio keeps
+   the whole scene in view at any width — swap the source file in
+   assets/header.svg and this sizing needs no changes. */
+.banner__scene {
+  width: 100%;
+  aspect-ratio: 1600 / 300;
+  max-height: 230px;
+  margin-top: .5rem;
+  background: var(--ground);
+}
+
+.banner__scene img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ----------------------------- Layout ----------------------------- */
+
+.layout {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 1rem;
+  padding: .85rem 1.25rem 1.25rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ----------------------------- Sidebar ---------------------------- */
+
+.sidebar {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.sidebar__head {
+  padding: 1rem 1rem .8rem;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  background: var(--ground-warm);
+  border-radius: 999px;
+  padding: .5rem .9rem;
+}
+
+.search__icon {
+  width: 15px;
+  height: 15px;
+  flex: none;
+  opacity: .55;
+}
+
+.search input {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  font-size: .95rem;
+  background: transparent;
+  color: var(--ink);
+}
+
+.search input::placeholder { color: var(--ink-soft); opacity: .8; }
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-top: .7rem;
+}
+
+.chip {
+  font: inherit;
+  font-size: .8rem;
+  font-weight: 700;
+  cursor: pointer;
+  border: 0;
+  border-radius: 999px;
+  padding: .32rem .7rem;
+  background: var(--ground-warm);
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: .38rem;
+  transition: background-color .14s ease, color .14s ease;
+}
+
+.chip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--chip-color, var(--sage));
+  flex: none;
+}
+
+.chip:hover { background: #e4d6c2; }
+
+.chip[aria-pressed="true"] {
+  background: var(--ink);
+  color: #fff;
+}
+
+.chip:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* Directory cards */
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: .2rem .6rem 1rem;
+  overflow-y: auto;
+  flex: 1 1 auto;
+  scrollbar-color: var(--teal) transparent;
+}
+
+.cards__divider {
+  padding: .55rem .5rem .3rem;
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.cards__divider:first-child { padding-top: .25rem; }
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  background: var(--paper);
+  border-radius: var(--radius-sm);
+  padding: .45rem .55rem;
+  margin-bottom: .1rem;
+  cursor: pointer;
+  transition: background-color .14s ease;
+}
+
+.card:hover,
+.card.is-active { background: var(--ground-warm); }
+
+.card__num {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--card-color, var(--sage));
+  color: var(--card-ink, #fff);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: .82rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.card__body {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  min-width: 0;
+}
+
+.card__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.05rem;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+/* Tier controls sidebar sort order (featured listings group first — see
+   renderCards); this tag is the visible reason why. */
+.card__tag {
+  align-self: flex-start;
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--brand);
+  background: rgba(124, 45, 58, .1);
+  border-radius: 999px;
+  padding: .1rem .5rem;
+}
+
+.cards__empty {
+  text-align: center;
+  padding: 2rem .5rem;
+  color: var(--ink-soft);
+}
+
+.sidebar__note {
+  flex: none;
+  margin: 0;
+  padding: .7rem 1rem .85rem;
+  background: var(--ground-warm);
+  font-size: .72rem;
+  color: var(--ink-soft);
+}
+
+/* ---------------------------- Map frame --------------------------- */
+
+.map-frame {
+  position: relative;
+  min-height: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--ground-warm);
+}
+
+#map {
+  position: absolute;
+  inset: 0;
+  background: var(--ground-warm);
+}
+
+.noscript {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--ink);
+  text-align: center;
+  padding: 1rem;
+}
+
+/* ------------------------------ Pins ------------------------------ */
+/* Tier controls pin size — featured markers render larger (see PIN_SCALE
+   in js/app.js), everything else about the shape is identical. */
+
+.pin {
+  background: none !important;
+  border: 0 !important;
+}
+
+.pin__svg {
+  display: block;
+  transform-origin: 50% 100%;
+  transition: transform .16s cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.pin:hover .pin__svg,
+.pin.is-active .pin__svg { transform: scale(1.14) translateY(-2px); }
+
+.pin.is-active .pin__svg { animation: hop .45s ease-in-out; }
+
+@keyframes hop {
+  0%, 100% { transform: scale(1.14) translateY(-2px); }
+  40%      { transform: scale(1.14) translateY(-7px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin__svg { transition: none; }
+  .pin.is-active .pin__svg { animation: none; }
+}
+
+/* --------------------------- Hover card --------------------------- */
+
+.leaflet-popup.chapter-popup .leaflet-popup-content-wrapper {
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(51, 40, 34, .16);
+  padding: 0;
+}
+
+.leaflet-popup.chapter-popup .leaflet-popup-content {
+  margin: 0;
+  width: 264px !important;
+  /* A featured listing's full carousel + details can run taller than a
+     short map frame. Capping the height and scrolling internally keeps the
+     whole popup within the space Leaflet's autoPan can actually work with,
+     instead of letting it grow past the map edge. */
+  max-height: 400px;
+  overflow-y: auto;
+  padding: .85rem .95rem .9rem;
+}
+
+.leaflet-popup.chapter-popup .leaflet-popup-tip {
+  background: var(--paper);
+  box-shadow: none;
+}
+
+.leaflet-popup.chapter-popup a.leaflet-popup-close-button { display: none; }
+
+/* Photo / carousel — tier controls which of these renders (see popupHtml
+   in js/app.js): standard tier gets .pop__photo-single, featured tier gets
+   .pop__carousel with every photo the listing has. Both bleed to the
+   popup's own edges and round to match its corners. */
+
+.pop__photo-single,
+.pop__carousel {
+  position: relative;
+  margin: -.85rem -.95rem .7rem;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  background: var(--ground-warm);
+}
+
+.pop__photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.pop__carousel .pop__photo { display: none; }
+.pop__carousel .pop__photo.is-active { display: block; }
+
+.pop__car-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(51, 40, 34, .55);
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.pop__car-prev { left: 8px; }
+.pop__car-next { right: 8px; }
+
+.pop__car-btn:hover { background: rgba(51, 40, 34, .78); }
+.pop__car-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+.pop__car-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: .3rem;
+}
+
+.pop__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .55);
+}
+
+.pop__dot.is-active { background: #fff; }
+
+.pop__ribbon {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: .3rem;
+}
+
+.pop__num {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: .72rem;
+  line-height: 1;
+  display: grid;
+  place-items: center;
+}
+
+.pop__featured-tag { color: var(--brand); font-weight: 800; }
+
+.pop__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.32rem;
+  line-height: 1.15;
+  margin: 0 0 .25rem;
+  color: var(--ink);
+}
+
+.pop__blurb {
+  margin: 0;
+  font-size: .875rem;
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.pop__details {
+  margin: .65rem 0 0;
+  font-size: .875rem;      /* matches the blurb; medium weight carries the emphasis */
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+}
+
+.pop__details span {
+  display: flex;
+  align-items: flex-start;   /* keep the icon on the first line when text wraps */
+  gap: .42rem;
+}
+
+.pop__details svg { flex: none; opacity: .6; margin-top: .2em; }
+
+.leaflet-container a.pop__phone {
+  color: inherit;
+  text-decoration: none;
+}
+
+.leaflet-container a.pop__phone:hover { text-decoration: underline; }
+
+.leaflet-container a.pop__link {
+  display: inline-block;
+  margin-top: .7rem;
+  font-family: var(--font-body);
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: none;
+  color: #fff;
+  /* deep ink rather than the category colour: gold and other mid-tones
+     can't carry white label text at this size */
+  background: var(--ink);
+  border-radius: 999px;
+  padding: .4rem .95rem;
+  transition: filter .14s ease;
+}
+
+.leaflet-container a.pop__link:hover { filter: brightness(1.1); }
+
+.leaflet-container a.pop__link:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+/* ------------------------ Leaflet chrome trim ---------------------- */
+
+.leaflet-container { font-family: var(--font-body); }
+
+.leaflet-control-zoom {
+  border: 0 !important;
+  box-shadow: 0 4px 14px rgba(51, 40, 34, .16) !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+}
+
+.leaflet-control-zoom a {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--ground) !important;
+  font-weight: 500;
+  font-family: var(--font-display);
+}
+
+.leaflet-control-zoom a:last-child { border-bottom: 0 !important; }
+.leaflet-control-zoom a:hover { background: var(--ground-warm) !important; }
+
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, .85) !important;
+  color: var(--ink-soft) !important;
+  font-size: 10px;
+  border-radius: 10px 0 0 0;
+  padding: 2px 7px !important;
+}
+
+.leaflet-control-attribution a { color: var(--ink-soft) !important; }
+
+.map-legend {
+  background: var(--paper);
+  border-radius: var(--radius-md);
+  box-shadow: 0 6px 18px rgba(51, 40, 34, .14);
+  padding: .7rem .85rem;
+  font-size: .76rem;
+  line-height: 1.7;
+  color: var(--ink);
+}
+
+.map-legend h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: .95rem;
+  margin: 0 0 .25rem;
+  color: var(--ink);
+}
+
+.map-legend ul { margin: 0; padding: 0; }
+
+.map-legend li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  color: var(--ink-soft);
+}
+
+.map-legend .swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--swatch, var(--sage));
+  flex: none;
+}
+
+.tile-warning {
+  max-width: 17rem;
+  line-height: 1.5;
+}
+
+.tile-warning h2 { color: var(--terracotta); }
+
+.tile-warning code {
+  background: var(--ground-warm);
+  border-radius: 4px;
+  padding: 0 .25em;
+  font-size: .95em;
+}
+
+/* ---------------------------- Responsive --------------------------- */
+
+@media (max-width: 860px) {
+  body { overflow: auto; }
+
+  .layout {
+    grid-template-columns: 1fr;
+    padding: .75rem .8rem 1rem;
+    /* stop the grid shrinking to the leftover viewport height: stacked, it
+       should take its content height and let the page scroll instead */
+    flex: 0 0 auto;
+    min-height: auto;
+  }
+
+  .banner { padding: 1.1rem 0 0; }
+  .banner__inner { padding: 0 1rem; }
+  .banner__scene { max-height: 110px; }
+
+  .map-frame { height: 58vh; min-height: 330px; }
+
+  /* Stacked on narrow screens the sidebar has no fixed height to scroll
+     inside, so let the list flow and the page itself scroll — otherwise the
+     flex column collapses the card area to nothing. */
+  .sidebar { max-height: none; }
+
+  .cards {
+    flex: 0 0 auto;
+    overflow: visible;
+  }
+}

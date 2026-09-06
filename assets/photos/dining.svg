@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-hidden="true">
+  <title>Placeholder photo — dining room</title>
+  <rect width="400" height="300" fill="#f5efe6" />
+  <rect y="0" width="400" height="120" fill="#efe4d4" />
+  <!-- window -->
+  <rect x="270" y="30" width="90" height="70" fill="#9fc7c2" stroke="#332822" stroke-width="3" />
+  <line x1="315" y1="30" x2="315" y2="100" stroke="#332822" stroke-width="2" />
+  <line x1="270" y1="65" x2="360" y2="65" stroke="#332822" stroke-width="2" />
+  <!-- table -->
+  <ellipse cx="200" cy="180" rx="120" ry="34" fill="#a9791f" stroke="#332822" stroke-width="3" />
+  <rect x="188" y="200" width="24" height="60" fill="#332822" />
+  <!-- place settings -->
+  <g fill="#ffffff" stroke="#332822" stroke-width="1.5">
+    <circle cx="120" cy="172" r="16" />
+    <circle cx="200" cy="160" r="16" />
+    <circle cx="280" cy="172" r="16" />
+  </g>
+  <!-- chairs -->
+  <g fill="none" stroke="#7c2d3a" stroke-width="4">
+    <path d="M100 230 v-20 M100 210 h20" />
+    <path d="M300 230 v-20 M280 210 h20" />
+  </g>
+  <!-- centerpiece -->
+  <circle cx="200" cy="158" r="8" fill="#4b7a4e" />
+</svg>

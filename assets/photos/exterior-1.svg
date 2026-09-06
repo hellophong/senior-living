@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300" role="img" aria-hidden="true">
+  <title>Placeholder photo — community exterior</title>
+  <rect width="400" height="300" fill="#efe4d4" />
+  <rect x="0" y="220" width="400" height="80" fill="#dccdb3" />
+  <!-- main building -->
+  <rect x="70" y="90" width="260" height="140" fill="#f5efe6" stroke="#332822" stroke-width="3" />
+  <rect x="70" y="90" width="260" height="26" fill="#33587e" />
+  <!-- entrance -->
+  <rect x="178" y="176" width="44" height="54" fill="#7c2d3a" />
+  <rect x="192" y="196" width="6" height="6" fill="#f5efe6" />
+  <!-- windows -->
+  <g fill="#9fc7c2" stroke="#332822" stroke-width="2">
+    <rect x="94"  y="140" width="34" height="30" />
+    <rect x="140" y="140" width="34" height="30" />
+    <rect x="226" y="140" width="34" height="30" />
+    <rect x="272" y="140" width="34" height="30" />
+    <rect x="94"  y="184" width="34" height="30" />
+    <rect x="272" y="184" width="34" height="30" />
+  </g>
+  <!-- roofline accent -->
+  <rect x="70" y="82" width="260" height="10" fill="#332822" />
+  <!-- trees -->
+  <g fill="#4b7a4e">
+    <circle cx="46" cy="188" r="26" />
+    <circle cx="354" cy="192" r="30" />
+  </g>
+  <rect x="41" y="210" width="10" height="20" fill="#5c4a36" />
+  <rect x="349" y="212" width="10" height="22" fill="#5c4a36" />
+  <!-- path -->
+  <path d="M170 230 L200 300 L230 230 Z" fill="#dccdb3" stroke="#c9b795" stroke-width="2" />
+</svg>
